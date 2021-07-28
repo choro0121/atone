@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:atone/pages/condition.dart';
 import 'package:atone/pages/new_room.dart';
 
 class SearchPage extends StatelessWidget {
@@ -13,8 +14,13 @@ class SearchPage extends StatelessWidget {
           Text(routeName),
           TextButton(
             onPressed: () =>
+                Navigator.pushNamed(context, ConditionPage.routeName),
+            child: Text('条件を変更'),
+          ),
+          TextButton(
+            onPressed: () =>
                 Navigator.pushNamed(context, NewRoomPage.routeName),
-            child: Text('new'),
+            child: Text('ルームを作成'),
           ),
         ],
       ),
