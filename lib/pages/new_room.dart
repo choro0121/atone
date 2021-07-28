@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'package:atone/widgets/game_card.dart';
 import 'package:atone/widgets/select_chip.dart';
+import 'package:atone/widgets/searchable_list.dart';
 
 class NewRoomPage extends StatelessWidget {
   static const routeName = '/new_room';
@@ -38,9 +42,42 @@ class NewRoomPage extends StatelessWidget {
           'ゲーム',
           style: Theme.of(context).textTheme.headline2,
         ),
-        SingleSelectChipWidget(
-          select: ['hoge', 'fuga'],
-          selected: '',
+        TextButton(
+          child: Text('hoge'),
+          onPressed: () {
+            showCupertinoModalBottomSheet(
+              expand: true,
+              context: context,
+              builder: (context) => SingleChildScrollView(
+                controller: ModalScrollController.of(context),
+                child: SearchableListWidget(
+                  hintText: 'ゲームを検索',
+                  children: {
+                    'apex legends': GameCardWidget(
+                      title: 'Apex Legends',
+                      asset: 'images/ApexLegends.jpg',
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    'valorant': GameCardWidget(
+                      title: 'Valorant',
+                      asset: 'images/Valorant.jpg',
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    'pubg': GameCardWidget(
+                      title: 'PUBG',
+                      asset: 'images/PUBG.jpg',
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    'fortnite': GameCardWidget(
+                      title: 'Fortnite',
+                      asset: 'images/Fortnite.jpg',
+                      onTap: () => Navigator.pop(context),
+                    ),
+                  },
+                ),
+              ),
+            );
+          },
         ),
         Text(
           'プラットフォーム',
