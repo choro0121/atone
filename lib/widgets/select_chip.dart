@@ -18,7 +18,7 @@ class SingleSelectChipWidget extends StatefulWidget {
 class _SingleSelectChipState extends State<SingleSelectChipWidget> {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
       children: [
         for (var s in widget.select)
           ChoiceChip(
@@ -56,7 +56,7 @@ class MultiSelectChipWidget extends StatefulWidget {
 class _MultiSelectChipState extends State<MultiSelectChipWidget> {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
       children: [
         for (var s in widget.select)
           ChoiceChip(
