@@ -5,16 +5,16 @@ enum ChatChipSender { me, other }
 class ChatChipWidget extends StatelessWidget {
   ChatChipWidget({
     this.avatar,
-    this.user,
+    this.username,
     required this.text,
-    this.timestamp,
+    required this.timestamp,
     required this.sender,
   });
 
   final CircleAvatar? avatar;
-  final String? user;
+  final String? username;
   final String text;
-  final DateTime? timestamp;
+  final DateTime timestamp;
   final ChatChipSender sender;
 
   bool get _me => sender == ChatChipSender.me;
@@ -35,7 +35,7 @@ class ChatChipWidget extends StatelessWidget {
           crossAxisAlignment:
               _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            if (!_me && user != null) Text(user!),
+            if (!_me && username != null) Text(username!),
             Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -43,11 +43,10 @@ class ChatChipWidget extends StatelessWidget {
               ),
               color: _me ? Colors.blue[200] : null,
             ),
-            if (timestamp != null)
-              Text(
-                timestamp.toString(),
-                style: Theme.of(context).textTheme.caption,
-              ),
+            Text(
+              '${timestamp.hour}:${timestamp.minute}',
+              style: Theme.of(context).textTheme.caption,
+            ),
           ],
         ),
       ],
