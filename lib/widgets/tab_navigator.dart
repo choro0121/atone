@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:atone/pages/chat_room.dart';
 import 'package:atone/pages/chat.dart';
 import 'package:atone/pages/condition.dart';
 import 'package:atone/pages/new_room.dart';
@@ -14,6 +15,15 @@ const Map<TabItem, String> _tabInitialRoute = {
   TabItem.profile: ProfilePage.routeName,
 };
 
+Map<String, WidgetBuilder> _routes = {
+  ChatRoomPage.routeName: (context) => ChatRoomPage(),
+  ChatPage.routeName: (context) => ChatPage(),
+  ConditionPage.routeName: (context) => ConditionPage(),
+  NewRoomPage.routeName: (context) => NewRoomPage(),
+  ProfilePage.routeName: (context) => ProfilePage(),
+  SearchPage.routeName: (context) => SearchPage(),
+};
+
 class TabNavigatorWidget extends StatelessWidget {
   TabNavigatorWidget({
     required this.navigatorKey,
@@ -23,20 +33,8 @@ class TabNavigatorWidget extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final TabItem tabItem;
 
-  Map<String, WidgetBuilder> _routeBuilders(BuildContext context) {
-    return {
-      ChatPage.routeName: (context) => ChatPage(),
-      ConditionPage.routeName: (context) => ConditionPage(),
-      NewRoomPage.routeName: (context) => NewRoomPage(),
-      ProfilePage.routeName: (context) => ProfilePage(),
-      SearchPage.routeName: (context) => SearchPage(),
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
-    final routeBuilders = _routeBuilders(context);
-
     return Navigator(
       key: navigatorKey,
       onGenerateRoute: (routeSettings) {
@@ -47,7 +45,7 @@ class TabNavigatorWidget extends StatelessWidget {
         }
 
         return MaterialPageRoute(
-          builder: (context) => routeBuilders[name]!(context),
+          builder: (context) => _routes[name]!(context),
         );
       },
     );
