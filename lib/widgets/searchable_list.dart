@@ -63,8 +63,10 @@ class _SearchableListState extends State<SearchableListWidget> {
           decoration: InputDecoration(
             hintText: widget.hintText,
             prefixIcon: Icon(Icons.search),
-            suffixIcon:
-                IconButton(icon: Icon(Icons.clear), onPressed: () => _clear()),
+            suffixIcon: IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () => _clear(),
+            ),
           ),
         ),
         Wrap(
