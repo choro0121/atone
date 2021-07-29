@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:atone/models/tab.dart';
+
 import 'package:atone/widgets/bottom_navigation.dart';
 import 'package:atone/widgets/tab_navigator.dart';
 
@@ -15,12 +17,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => TabModel(),
-        ),
-      ],
+    return ProviderScope(
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -34,28 +31,24 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class App extends StatelessWidget {
+class App extends HookWidget {
   final _navKeys = {
     TabItem.search: GlobalKey<NavigatorState>(),
     TabItem.chat: GlobalKey<NavigatorState>(),
     TabItem.profile: GlobalKey<NavigatorState>(),
   };
 
-  void _selectTab(BuildContext context, TabItem tabItem) {
-    final tabModel = Provider.of<TabModel>(context, listen: false);
-
-    if (tabModel.currentTab == tabItem) {
-      _navKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
+  void _selectTab(BuildContext context, TabItem newTab) {
+    if (context.read(tabStateProvider).currentTab == newTab) {
+      _navKeys[newTab]!.currentState!.popUntil((route) => route.isFirst);
     } else {
-      tabModel.change(tabItem);
+      context.read(tabStateProvider.notifier).change(newTab);
     }
   }
 
-  Widget _buildOffstageNavigator(BuildContext context, TabItem tabItem) {
-    final tabModel = Provider.of<TabModel>(context);
-
+  Widget _buildOffstageNavigator(TabItem currentTab, TabItem tabItem) {
     return Offstage(
-      offstage: tabModel.currentTab != tabItem,
+      offstage: currentTab != tabItem,
       child: TabNavigatorWidget(
         navigatorKey: _navKeys[tabItem]!,
         tabItem: tabItem,
@@ -65,27 +58,27 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tabModel = Provider.of<TabModel>(context);
+    final tabState = useProvider(tabStateProvider);
 
     return WillPopScope(
       child: Scaffold(
           bottomNavigationBar: BottomNavigationWidget(
-            currentTab: tabModel.currentTab,
+            currentTab: tabState.currentTab,
             onSelectTab: (tabItem) => _selectTab(context, tabItem),
           ),
           body: Stack(
             children: [
-              _buildOffstageNavigator(context, TabItem.search),
-              _buildOffstageNavigator(context, TabItem.chat),
-              _buildOffstageNavigator(context, TabItem.profile),
+              _buildOffstageNavigator(tabState.currentTab, TabItem.search),
+              _buildOffstageNavigator(tabState.currentTab, TabItem.chat),
+              _buildOffstageNavigator(tabState.currentTab, TabItem.profile),
             ],
           )),
       onWillPop: () async {
         // is first route in current tab
         final first =
-            !await _navKeys[tabModel.currentTab]!.currentState!.maybePop();
+            !await _navKeys[tabState.currentTab]!.currentState!.maybePop();
         if (first) {
-          if (tabModel.currentTab != TabItem.search) {
+          if (tabState.currentTab != TabItem.search) {
             _selectTab(context, TabItem.search);
             return false;
           }
