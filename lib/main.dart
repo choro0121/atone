@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(elevation: 0.0),
+          fontFamily: 'NotoSansJP',
         ),
         debugShowCheckedModeBanner: false,
         home: App(),
