@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:atone/pages/chat_room.dart';
 import 'package:atone/pages/chat.dart';
 import 'package:atone/pages/condition.dart';
+import 'package:atone/pages/edit_profile.dart';
 import 'package:atone/pages/new_room.dart';
 import 'package:atone/pages/profile.dart';
 import 'package:atone/pages/search.dart';
@@ -19,6 +20,7 @@ Map<String, WidgetBuilder> _routes = {
   ChatRoomPage.routeName: (context) => ChatRoomPage(),
   ChatPage.routeName: (context) => ChatPage(),
   ConditionPage.routeName: (context) => ConditionPage(),
+  EditProfilePage.routeName: (context) => EditProfilePage(),
   NewRoomPage.routeName: (context) => NewRoomPage(),
   ProfilePage.routeName: (context) => ProfilePage(),
   SearchPage.routeName: (context) => SearchPage(),

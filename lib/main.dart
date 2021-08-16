@@ -24,6 +24,15 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(elevation: 0.0),
           fontFamily: 'NotoSansJP',
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(width: 0, style: BorderStyle.none),
+            ),
+            filled: true,
+            fillColor: Colors.grey[200],
+            isDense: true,
+          ),
         ),
         debugShowCheckedModeBanner: false,
         home: App(),
